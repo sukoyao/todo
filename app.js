@@ -17,8 +17,45 @@ db.once('open', () => {
 // 載入 todo model
 const Todo = require('./models/todo')
 
+// 設定路由
+// Todo 首頁
 app.get('/', (req, res) => {
-  res.send('hello world!!!!!!')
+  res.send('hello world!')
+})
+
+// 列出全部todo
+app.get('/todos', (req, res) => {
+  res.send('列出全部todo')
+})
+
+// 新增一筆todo頁面 
+app.get('/todos/new', (req, res) => {
+  res.send('新增todo頁面')
+})
+
+// 顯示一筆todo的詳細內容
+app.get('/todos/:id', (req, res) => {
+  res.send('顯示todo的詳細內容')
+})
+
+// 建立一筆todo
+app.post('/todos', (req, res) => {
+  res.send('建立todo')
+})
+
+// 修改todo頁面
+app.get('/todos/:id/edit', (req, res) => {
+  res.send('修改todo頁面')
+})
+
+// 修改todo
+app.post('/todos/:id', (req, res) => {
+  res.send('修改todo')
+})
+
+// 刪除todo
+app.post('/todos/:id/delete', (req, res) => {
+  res.send('刪除todo')
 })
 
 app.listen(3000, () => {
