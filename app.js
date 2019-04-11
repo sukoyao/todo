@@ -14,6 +14,7 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+// 載入 todo model
 const Todo = require('./models/todo')
 
 app.get('/', (req, res) => {
