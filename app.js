@@ -2,9 +2,13 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+
+// 設定 bodyParser
+app.use(bodyParser.urlencoded({ extened: true }))
 
 mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true })
 
@@ -36,7 +40,7 @@ app.get('/todos', (req, res) => {
 
 // 新增一筆todo頁面 
 app.get('/todos/new', (req, res) => {
-  res.send('新增todo頁面')
+  return res.render('new')
 })
 
 // 顯示一筆todo的詳細內容
@@ -46,7 +50,14 @@ app.get('/todos/:id', (req, res) => {
 
 // 建立一筆todo
 app.post('/todos', (req, res) => {
-  res.send('建立todo')
+  const todo = Todo({
+    name: req.body.name
+  })
+
+  todo.save(err => {
+    if (err) return connsole.log(err)
+    return res.redirect('/')
+  })
 })
 
 // 修改todo頁面
