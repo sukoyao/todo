@@ -8,7 +8,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 // 設定 bodyParser
-app.use(bodyParser.urlencoded({ extened: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true })
 
@@ -45,7 +45,11 @@ app.get('/todos/new', (req, res) => {
 
 // 顯示一筆todo的詳細內容
 app.get('/todos/:id', (req, res) => {
-  res.send('顯示todo的詳細內容')
+  // req.params.id
+  Todo.findById(req.params.id, (err, todo) => {
+    if (err) return console.log(err)
+    return res.render('detail', { todo: todo })
+  })
 })
 
 // 建立一筆todo
@@ -55,7 +59,7 @@ app.post('/todos', (req, res) => {
   })
 
   todo.save(err => {
-    if (err) return connsole.log(err)
+    if (err) return console.log(err)
     return res.redirect('/')
   })
 })
