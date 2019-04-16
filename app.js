@@ -28,9 +28,11 @@ const Todo = require('./models/todo')
 // 設定路由
 // Todo 首頁
 app.get('/', (req, res) => {
-  Todo.find((err, todos) => {
-    return res.render('index', { todos: todos })
-  })
+  Todo.find()
+    .sort({ name: 'asc' })
+    .exec((err, todos) => {
+      return res.render('index', { todos: todos })
+    })
 })
 
 // 列出全部todo
@@ -77,6 +79,11 @@ app.post('/todos/:id', (req, res) => {
   Todo.findById(req.params.id, (err, todo) => {
     if (err) return console.log(err)
     todo.name = req.body.name
+    if (req.body.done === 'on') {
+      todo.done = true
+    } else {
+      todo.done = false
+    }
     todo.save(err => {
       if (err) return console.log(err)
       return res.redirect(`/todos/${req.params.id}`)
