@@ -29,82 +29,9 @@ db.once('open', () => {
 // 載入 todo model
 const Todo = require('./models/todo')
 
-// 設定路由
-// Todo 首頁
-app.get('/', (req, res) => {
-  Todo.find()
-    .sort({ name: 'asc' })
-    .exec((err, todos) => {
-      return res.render('index', { todos: todos })
-    })
-})
-
-// 列出全部todo
-app.get('/todos', (req, res) => {
-  res.send('列出全部todo')
-})
-
-// 新增一筆todo頁面 
-app.get('/todos/new', (req, res) => {
-  return res.render('new')
-})
-
-// 顯示一筆todo的詳細內容
-app.get('/todos/:id', (req, res) => {
-  // req.params.id
-  Todo.findById(req.params.id, (err, todo) => {
-    if (err) return console.log(err)
-    return res.render('detail', { todo: todo })
-  })
-})
-
-// 建立一筆todo
-app.post('/todos', (req, res) => {
-  const todo = Todo({
-    name: req.body.name
-  })
-
-  todo.save(err => {
-    if (err) return console.log(err)
-    return res.redirect('/')
-  })
-})
-
-// 修改todo頁面
-app.get('/todos/:id/edit', (req, res) => {
-  Todo.findById(req.params.id, (err, todo) => {
-    if (err) return console.log(err)
-    return res.render('edit', { todo: todo })
-  })
-})
-
-// 修改todo
-app.put('/todos/:id', (req, res) => {
-  Todo.findById(req.params.id, (err, todo) => {
-    if (err) return console.log(err)
-    todo.name = req.body.name
-    if (req.body.done === 'on') {
-      todo.done = true
-    } else {
-      todo.done = false
-    }
-    todo.save(err => {
-      if (err) return console.log(err)
-      return res.redirect(`/todos/${req.params.id}`)
-    })
-  })
-})
-
-// 刪除todo
-app.delete('/todos/:id/delete', (req, res) => {
-  Todo.findById(req.params.id, (err, todo) => {
-    if (err) return console.log(err)
-    todo.remove(err => {
-      if (err) return console.log(err)
-      return res.redirect('/')
-    })
-  })
-})
+// 載入路由
+app.use('/todos', require('./routes/todo'))
+app.use('/', require('./routes/home'))
 
 app.listen(3000, () => {
   console.log('App is running!!!!!')
