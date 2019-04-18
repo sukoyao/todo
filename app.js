@@ -32,7 +32,7 @@ const Todo = require('./models/todo')
 // 載入路由
 app.use('/todos', require('./routes/todo'))
 app.use('/', require('./routes/home'))
-app.use('/', require('./routes/user'))
+app.use('/users', require('./routes/user'))
 
 app.listen(3000, () => {
   console.log('App is running!!!!!')
