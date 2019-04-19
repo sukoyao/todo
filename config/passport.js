@@ -1,7 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy
 const mongoose = require('mongoose')
+// 載入 User model
 const User = require('../models/user')
-
 module.exports = passport => {
   passport.use(
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
@@ -12,7 +12,7 @@ module.exports = passport => {
           return done(null, false, { message: 'That email is not registered' })
         }
         if (user.password != password) {
-          return done(null, false, { message: 'Email or Password is incorrect' })
+          return done(null, false, { message: 'Email or Password incorrect' })
         }
         return done(null, user)
       })

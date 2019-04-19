@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
-const passport = require('passport')
 const session = require('express-session')
+const passport = require('passport')
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
@@ -30,7 +30,7 @@ db.once('open', () => {
 
 // secret: 定義一組自己的私鑰（字串)
 app.use(session({
-  secret: 'is my secret',
+  secret: 'your secret key',                // secret: 定義一組自己的私鑰（字串)
 }))
 
 // 使用passport
