@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+const passport = require('passport')
+const session = require('express-session')
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
@@ -24,6 +26,24 @@ db.on('error', () => {
 
 db.once('open', () => {
   console.log('mongodb connected!')
+})
+
+// secret: 定義一組自己的私鑰（字串)
+app.use(session({
+  secret: 'is my secret',
+}))
+
+// 使用passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+// 載入passport config
+require('./config/passport')(passport)
+
+// 登入後可以取得使用者的資訊方便我們在 view 裡面直接使用
+app.use((req, res, next) => {
+  res.locals.user = req.user
+  next()
 })
 
 // 載入 todo model
