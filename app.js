@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // 設定methodOverride
 app.use(methodOverride('_method'))
 
-mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true })
+mongoose.connect('mongodb://127.0.0.1/todo', { useNewUrlParser: true, useCreateIndex: true })
 
 const db = mongoose.connection
 
@@ -31,6 +31,8 @@ db.once('open', () => {
 // secret: 定義一組自己的私鑰（字串)
 app.use(session({
   secret: 'your secret key',                // secret: 定義一組自己的私鑰（字串)
+  resave: 'false',
+  saveUninitialized: 'false',
 }))
 
 // 使用passport
