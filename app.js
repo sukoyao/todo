@@ -56,6 +56,7 @@ const Todo = require('./models/todo')
 app.use('/todos', require('./routes/todo'))
 app.use('/', require('./routes/home'))
 app.use('/users', require('./routes/user'))
+app.use('/auth', require('./routes/auths'))
 
 app.listen(3000, () => {
   console.log('App is running!!!!!')
